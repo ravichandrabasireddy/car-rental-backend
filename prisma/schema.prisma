@@ -1,0 +1,155 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String?
+  email String? @unique
+  hashedPassword String?
+  address Address?
+  phoneNumber String? 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamp
+  role Role @default(USER)
+  cars Car[]
+  reservations Reservation[]
+  accounts Account[]
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model Address {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @db.ObjectId @unique
+  street String
+  city String
+  state String
+  zip String
+  country String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Car {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  type CarType @default(SEDAN)
+  userId String @db.ObjectId
+  name String
+  image String
+  dailyRate Int
+  pickupAddress String
+  dropOffAddress String
+  availability Availability[]
+  available Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamp
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reservations Reservation[]
+}
+
+enum CarType {
+  SEDAN
+  SUV
+  LUXURY
+  ELECTRIC
+}
+
+model Availability {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  carId String @db.ObjectId
+  startDate DateTime
+  endDate DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamp
+  car Car @relation(fields: [carId], references: [id], onDelete: Cascade)
+
+}
+
+model Account {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @db.ObjectId
+  type String
+  provider String
+  providerAccountId String
+  refresh_token String? @db.String
+  access_token String? @db.String
+  expires_at Int?
+  token_type String?
+  scope String? 
+  id_token String?  @db.String
+  session_state String?
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+
+model Reservation {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @db.ObjectId
+  carId String @db.ObjectId
+  
+  startDate DateTime
+  endDate DateTime
+  totalPrice Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamp
+  status ReservationStatus @default(PENDING)
+  paymentInfo PaymentInfo?
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  car Car @relation(fields: [carId], references: [id], onDelete: Cascade)
+}
+
+enum ReservationStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+model PaymentInfo {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  reservationId String @db.ObjectId @unique
+  amount Int
+  paymentMethod String
+  paymentStatus PaymentStatus @default(PENDING)
+  cardInfo CardInfo?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamp
+  reservation Reservation @relation(fields: [reservationId], references: [id], onDelete: Cascade)
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+}
+
+model CardInfo {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  number String
+  expiryDate DateTime
+  cvv String
+  paymentInfo PaymentInfo @relation(fields: [paymentInfoId], references: [id], onDelete: Cascade)
+  paymentInfoId String @db.ObjectId @unique
+}
+
+
+

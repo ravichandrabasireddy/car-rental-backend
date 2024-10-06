@@ -1,25 +1,50 @@
-import { IsString, IsEnum, IsObject, IsOptional } from "class-validator";
-import { Address, Role } from "@prisma/client";
+import { IsString, IsEnum, IsOptional, IsEmail, MinLength, ValidateNested } from "class-validator";
+import { Role } from "@prisma/client";
+import { Type } from "class-transformer";
 
 
 export class CreateUserDto {
+
+        
     @IsString()
     name: string;
 
-    @IsString()
+    @IsString() @IsEmail()
     email: string;
 
-    @IsString()
+    @IsString() @MinLength(8)
     password: string;
 
     @IsEnum(Role)
     role: Role; 
 }
 
+
+export class UpdateUserAddressDto {
+    @IsString() @IsOptional()
+    street: string;
+
+    @IsString() @IsOptional()
+    city: string;
+    
+    @IsString() @IsOptional()
+    state: string;
+
+    @IsString() @IsOptional()
+    country: string;
+
+    @IsString() @IsOptional()
+    zip: string;
+}
+
 export class UpdateUserDto {
     @IsString() @IsOptional()
     phoneNumber: string;
 
-    @IsObject() @IsOptional()
-    address: Address;
+
+    @IsOptional()
+    @ValidateNested()
+    @Type(() => UpdateUserAddressDto)
+    address: UpdateUserAddressDto;
+    
 }

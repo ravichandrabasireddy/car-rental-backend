@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards, ValidationPipe } from '@nestjs/common';
 import { UserService } from './user.service';
 import { JwtGuard } from '../auth/guard/jwt.guard';
 import { UpdateUserDto } from './dto/user.dto';
@@ -17,7 +17,7 @@ export class UserController {
 
     @UseGuards(JwtGuard)
     @Post("update/:id")
-    async updateUser(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    async updateUser(@Param('id') id: string, @Body(ValidationPipe) updateUserDto: UpdateUserDto) {
         return await this.userService.updateUser(id, updateUserDto);
     }
 

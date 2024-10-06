@@ -7,9 +7,10 @@ import { ReservationModule } from './reservation/reservation.module';
 import { CarModule } from './car/car.module';
 import { AuthModule } from './auth/auth.module';
 import { PrismaService } from './prisma/prisma.service'; 
+import { BlobModule } from './blob/blob.module';
 
 @Module({
-  imports: [ConfigModule.forRoot(), UserModule, ReservationModule, CarModule, AuthModule],
+  imports: [ConfigModule.forRoot(), UserModule, ReservationModule, CarModule, AuthModule, BlobModule],
   controllers: [AppController],
   providers: [AppService, PrismaService],
 })

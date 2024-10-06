@@ -5,7 +5,7 @@ import { compare } from 'bcrypt';
 import { UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
-const EXPIRE_TIME=20*1000;
+const EXPIRE_TIME=5*60*60*1000;
 
 @Injectable()
 export class AuthService {
@@ -36,7 +36,7 @@ export class AuthService {
             },
             backend_tokens:{
                 access_token: await this.jwtService.signAsync(payload,{
-                    expiresIn: '20s',
+                    expiresIn: '5h',
                     secret: process.env.JWT_SECRET_KEY
                 }),
                 refresh_token: await this.jwtService.signAsync(payload,{
@@ -71,7 +71,7 @@ export class AuthService {
         return {
             backend_tokens:{
                 access_token: await this.jwtService.signAsync(payload,{
-                    expiresIn: '20s',
+                    expiresIn: '5h',
                     secret: process.env.JWT_SECRET_KEY
                 }),
                 refresh_token: await this.jwtService.signAsync(payload,{

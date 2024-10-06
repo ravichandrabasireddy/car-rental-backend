@@ -15,3 +15,11 @@ export class CreateUserDto {
     @IsEnum(Role)
     role: Role; 
 }
+
+export class UpdateUserDto {
+    @IsString() @IsOptional()
+    phoneNumber: string;
+
+    @IsObject() @IsOptional()
+    address: Address;
+}

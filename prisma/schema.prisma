@@ -22,11 +22,10 @@ model User {
   address Address?
   phoneNumber String? 
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamp
+  updatedAt DateTime @updatedAt
   role Role @default(USER)
   cars Car[]
   reservations Reservation[]
-  accounts Account[]
 }
 
 enum Role {
@@ -37,11 +36,11 @@ enum Role {
 model Address {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   userId String @db.ObjectId @unique
-  street String
-  city String
-  state String
-  zip String
-  country String
+  street String?
+  city String?
+  state String?
+  zip String?
+  country String?
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
@@ -50,14 +49,14 @@ model Car {
   type CarType @default(SEDAN)
   userId String @db.ObjectId
   name String
-  image String
+  image String?
   dailyRate Int
   pickupAddress String
   dropOffAddress String
   availability Availability[]
   available Boolean @default(true)
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamp
+  updatedAt DateTime @updatedAt 
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   reservations Reservation[]
@@ -76,28 +75,12 @@ model Availability {
   startDate DateTime
   endDate DateTime
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamp
+  updatedAt DateTime @updatedAt
   car Car @relation(fields: [carId], references: [id], onDelete: Cascade)
 
 }
 
-model Account {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  userId String @db.ObjectId
-  type String
-  provider String
-  providerAccountId String
-  refresh_token String? @db.String
-  access_token String? @db.String
-  expires_at Int?
-  token_type String?
-  scope String? 
-  id_token String?  @db.String
-  session_state String?
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([provider, providerAccountId])
-}
 
 
 model Reservation {
@@ -109,7 +92,7 @@ model Reservation {
   endDate DateTime
   totalPrice Int
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamp
+  updatedAt DateTime @updatedAt
   status ReservationStatus @default(PENDING)
   paymentInfo PaymentInfo?
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -131,7 +114,7 @@ model PaymentInfo {
   paymentStatus PaymentStatus @default(PENDING)
   cardInfo CardInfo?
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamp
+  updatedAt DateTime @updatedAt
   reservation Reservation @relation(fields: [reservationId], references: [id], onDelete: Cascade)
 }
 

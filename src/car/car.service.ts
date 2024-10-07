@@ -74,12 +74,18 @@ export class CarService {
             where: {
                 carId: id,
                 isDeleted: false,
-                startDate: {
-                    gte: startDate
-                },
-                endDate: {
-                    lte: endDate
-                }
+                OR: [
+                    {
+                        startDate: { lte: endDate },
+                        endDate: { gte: startDate }
+                    },
+                    {
+                        startDate: { gte: startDate, lte: endDate }
+                    },
+                    {
+                        endDate: { gte: startDate, lte: endDate }
+                    }
+                ]
             }
         });
 

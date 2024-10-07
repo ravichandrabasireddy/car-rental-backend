@@ -65,7 +65,7 @@ export class AuthService {
     async refreshToken(user: any) {
         const payload = { 
             sub: user.sub,
-            username: user.email,
+            username: user.username,
             id: user.id
         };
         return {

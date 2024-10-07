@@ -101,6 +101,8 @@ model Reservation {
 
 enum ReservationStatus {
   PENDING
+  PROCESSING
+  FAILED
   CONFIRMED
   CANCELLED
   COMPLETED

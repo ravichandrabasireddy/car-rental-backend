@@ -6,5 +6,7 @@ declare namespace NodeJS {
         SERVICE_ACCOUNT_KEY_PATH: string;
         STORAGE_BUCKET_NAME: string;
         PUBLIC_IMAGE_URL: string;
+        REDIS_HOST: string;
+        REDIS_PORT: string;
     }
 }

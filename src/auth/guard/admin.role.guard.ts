@@ -18,7 +18,7 @@ export class AdminRoleGuard implements CanActivate {
                 secret: process.env.JWT_SECRET_KEY
             });
             request['user'] = payload;
-            if (payload.role !== "ADMIN") {
+            if (payload.sub.role !== "ADMIN") {
                 throw new UnauthorizedException("You are not authorized to access this resource");
             }
         }

@@ -9,7 +9,11 @@ export class BlobController {
 
     @UseGuards(JwtGuard)
     @Post('upload')
-    @UseInterceptors(FileInterceptor('image'))
+    @UseInterceptors(FileInterceptor('image',{
+        limits: {
+            fileSize: 10 * 1024 * 1024, // 10 MB
+        },
+    }))
     async uploadFile(@UploadedFile() file: Express.Multer.File) {
 
         const fileExtension = file.originalname.toLowerCase().split('.').pop();

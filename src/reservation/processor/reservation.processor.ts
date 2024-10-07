@@ -28,6 +28,16 @@ export class ReservationProcessor {
           data: { status: ReservationStatus.CANCELLED },
         });
 
+        await prisma.availability.updateMany({
+          where: {
+            carId: reservation.carId,
+            startDate: { lte: reservation.endDate },
+            endDate: { gte: reservation.startDate },
+            isDeleted: true
+          },
+          data: { isDeleted: false }
+        });
+
         await prisma.car.update({
           where: { id: reservation.carId },
           data: { available: true },

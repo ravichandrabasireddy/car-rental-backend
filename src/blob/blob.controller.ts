@@ -1,13 +1,13 @@
 import { BadRequestException, Controller, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { BlobService } from './blob.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { JwtGuard } from '../auth/guard/jwt.guard';
+import { AdminRoleGuard } from '../auth/guard/admin.role.guard';
 @Controller('blob')
 export class BlobController {
     private allowedFormats = ['.jpg', '.jpeg', '.png', '.gif'];
     constructor(private readonly blobService: BlobService) { }
 
-    @UseGuards(JwtGuard)
+    @UseGuards(AdminRoleGuard)
     @Post('upload')
     @UseInterceptors(FileInterceptor('image',{
         limits: {

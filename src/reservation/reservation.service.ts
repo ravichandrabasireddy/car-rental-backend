@@ -40,11 +40,14 @@ export class ReservationService {
 			});
 
 			// Add this check
-			await prisma.availability.deleteMany({
+			await prisma.availability.updateMany({
 				where: {
 					carId,
 					startDate: { lte: endDate },
 					endDate: { gte: startDate }
+				},
+				data: {
+					isDeleted: true
 				}
 			});
 

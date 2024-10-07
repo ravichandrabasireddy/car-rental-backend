@@ -42,9 +42,6 @@ export class updateCarListingDto {
 }
 
 export class updateCarScheduleDto {
-    @IsString()
-    carId: string;
-
     @IsDate()
     startDate: Date;
 

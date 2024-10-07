@@ -12,8 +12,9 @@ export class createCardInfoDto {
     number: string;
 
     @IsNotEmpty()
+    @Type(() => Date)
     @IsDate()
-    expiryDate: Date;     
+    expiryDate: Date;  
 
     @IsNotEmpty()
     @IsString()

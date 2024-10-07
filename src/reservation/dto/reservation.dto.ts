@@ -2,6 +2,15 @@ import { Type } from 'class-transformer';
 import { IsDateString, IsNotEmpty, IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator';
 
 
+export enum ReservationStatus {
+    PENDING = "PENDING",
+    CONFIRMED = "CONFIRMED",
+    CANCELLED = "CANCELLED",
+    COMPLETED = "COMPLETED",
+    PROCESSING = "PROCESSING",
+    FAILED = "FAILED"
+}
+
 export class createReservationDto {
 
     @IsNotEmpty() 

@@ -1,7 +1,7 @@
 import { Process, Processor } from '@nestjs/bull';
 import { Job } from 'bull';
 import { PrismaService } from '../../prisma/prisma.service';
-import { ReservationStatus } from '@prisma/client';
+import { ReservationStatus } from '../dto/reservation.dto';
 
 @Processor('reservations')
 export class ReservationProcessor {
@@ -25,7 +25,7 @@ export class ReservationProcessor {
       await this.prisma.$transaction(async (prisma) => {
         await prisma.reservation.update({
           where: { id: reservationId },
-          data: { status: ReservationStatus.CANCELLED },
+          data: { status: ReservationStatus.FAILED },
         });
 
         await prisma.availability.updateMany({

@@ -1,7 +1,10 @@
 import { IsString, IsEnum, IsOptional, IsEmail, MinLength, ValidateNested } from "class-validator";
-import { Role } from "@prisma/client";
 import { Type } from "class-transformer";
 
+export enum Role {
+    ADMIN = "ADMIN",
+    USER = "USER"
+}
 
 export class CreateUserDto {
 

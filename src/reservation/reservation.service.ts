@@ -1,9 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { ReservationStatus } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bull';
-import { createReservationDto } from './dto/reservation.dto';
+import { createReservationDto, ReservationStatus } from './dto/reservation.dto';
 @Injectable()
 export class ReservationService {
 	constructor(
@@ -152,6 +151,16 @@ export class ReservationService {
 			await prisma.car.update({
 				where: { id: reservation.carId },
 				data: { available: true },
+			});
+
+			await prisma.availability.updateMany({
+				where: {
+					carId: reservation.carId,
+					startDate: { lte: reservation.endDate },
+					endDate: { gte: reservation.startDate },
+					isDeleted: true
+				},
+				data: { isDeleted: false }
 			});
 
 			return updatedReservation;

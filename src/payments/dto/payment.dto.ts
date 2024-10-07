@@ -2,6 +2,12 @@ import { Type } from "class-transformer";
 import { IsDate, IsNotEmpty, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator";
 
 
+export enum PaymentStatus {
+    PENDING = "PENDING",
+    SUCCESS = "SUCCESS",
+    FAILED = "FAILED"
+}
+
 export class createCardInfoDto {
     @IsNotEmpty()
     @IsString()

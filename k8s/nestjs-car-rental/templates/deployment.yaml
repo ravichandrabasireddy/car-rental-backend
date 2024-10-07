@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: nestjs-car-rental
+  name: nestjs-car-rental
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nestjs-car-rental
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: nestjs-car-rental
+    spec:
+      containers:
+      - image: ravichandra1999/car-rental-backend:latest
+        name: car-rental-backend
+        ports:
+        - containerPort: 3000
+        envFrom:
+        - secretRef:
+            name: {{ .Release.Name }}-env-secret
+        volumeMounts:
+        - name: service-account
+          mountPath: /usr/src/app/service-account.json
+          subPath: service-account.json
+        resources: {}
+      volumes:
+      - name: service-account
+        secret:
+          secretName: {{ .Release.Name }}-service-account-secret
+          items:
+          - key: service-account.json
+            path: service-account.json
+status: {}

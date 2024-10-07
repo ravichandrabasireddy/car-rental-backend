@@ -1,5 +1,13 @@
-import { CarType } from "@prisma/client";
+
 import { IsString, IsNumber, IsOptional, IsDate, IsEnum, Min, Max } from "class-validator";
+
+export enum CarType {
+    SUV = "SUV",
+    SEDAN = "SEDAN",
+    LUXURY = "LUXURY",
+    ELECTRIC = "ELECTRIC",
+}
+
 
 export class createCarListingDto {
     @IsString()

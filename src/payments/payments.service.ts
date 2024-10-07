@@ -1,10 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { PaymentStatus, ReservationStatus } from '@prisma/client';
 import { hash } from 'bcrypt';
-import { createCardInfoDto, createPaymentDto } from './dto/payment.dto';
+import { createCardInfoDto, createPaymentDto, PaymentStatus } from './dto/payment.dto';
+import { ReservationStatus } from '../reservation/dto/reservation.dto';
 import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bull';
+
 
 @Injectable()
 export class PaymentsService {

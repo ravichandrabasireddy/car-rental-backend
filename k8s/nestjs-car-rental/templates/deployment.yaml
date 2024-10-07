@@ -1,40 +1,40 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  creationTimestamp: null
+  name: {{ include "nestjs-car-rental.fullname" . }}
   labels:
-    app: nestjs-car-rental
-  name: nestjs-car-rental
+    {{- include "nestjs-car-rental.labels" . | nindent 4 }}
+  annotations:
+    "meta.helm.sh/release-name": {{ .Release.Name | quote }}
+    "meta.helm.sh/release-namespace": {{ .Release.Namespace | quote }}
 spec:
-  replicas: 3
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: nestjs-car-rental
-  strategy: {}
+      {{- include "nestjs-car-rental.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      creationTimestamp: null
       labels:
-        app: nestjs-car-rental
+        {{- include "nestjs-car-rental.selectorLabels" . | nindent 8 }}
     spec:
       containers:
-      - image: ravichandra1999/car-rental-backend:latest
-        name: car-rental-backend
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
-        - containerPort: 3000
+        - name: http
+          containerPort: {{ .Values.service.port }}
         envFrom:
         - secretRef:
-            name: {{ .Release.Name }}-env-secret
+            name: {{ include "nestjs-car-rental.fullname" . }}-secrets
         volumeMounts:
         - name: service-account
           mountPath: /usr/src/app/service-account.json
           subPath: service-account.json
-        resources: {}
       volumes:
       - name: service-account
         secret:
-          secretName: {{ .Release.Name }}-service-account-secret
+          secretName: {{ include "nestjs-car-rental.fullname" . }}-secrets
           items:
           - key: service-account.json
             path: service-account.json
-status: {}

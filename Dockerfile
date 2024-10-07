@@ -1,4 +1,4 @@
-FROM node:alpine as development
+FROM node:18-alpine as development
 
 WORKDIR /usr/src/app
 
@@ -12,7 +12,7 @@ COPY . .
 
 RUN npm run build
 
-FROM node:alpine as production
+FROM node:18-alpine as production
 
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
@@ -25,8 +25,5 @@ COPY prisma ./prisma/
 RUN npm ci --only=production
 
 COPY --from=development /usr/src/app/dist ./dist
-
-ARG SERVICE_ACCOUNT_FILE=service-account.json
-COPY ${SERVICE_ACCOUNT_FILE} ./service-account.json
 
 CMD ["node", "dist/main"]

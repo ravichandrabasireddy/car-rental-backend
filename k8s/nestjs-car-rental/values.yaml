@@ -1,0 +1,28 @@
+replicaCount: 3
+
+nameOverride: "nestjs-car-rental"
+fullnameOverride: "nestjs-car-rental"
+
+image:
+  repository: ravichandra1999/car-rental-backend
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+service:
+  type: NodePort
+  port: 3000
+
+redis:
+  host: "nestjs-car-rental-redis-master"
+  port: "6379"
+  auth:
+    enabled: false
+
+secrets:
+  databaseUrl: ""
+  jwtSecretKey: ""
+  jwtRefreshTokenKey: ""
+  serviceAccountKeyPath: "/usr/src/app/service-account.json"
+  storageBucketName: ""
+  publicImageUrl: ""
+  serviceAccountJson: ""

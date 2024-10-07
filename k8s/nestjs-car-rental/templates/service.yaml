@@ -1,18 +1,18 @@
 apiVersion: v1
 kind: Service
 metadata:
-  creationTimestamp: null
+  name: {{ include "nestjs-car-rental.fullname" . }}-service
   labels:
-    app: nestjs-car-rental
-    app.kubernetes.io/managed-by: Helm
-  name: nestjs-car-rental
+    {{- include "nestjs-car-rental.labels" . | nindent 4 }}
+  annotations:
+    "meta.helm.sh/release-name": {{ .Release.Name | quote }}
+    "meta.helm.sh/release-namespace": {{ .Release.Namespace | quote }}
 spec:
+  type: {{ .Values.service.type }}
   ports:
-  - port: 3000
-    protocol: TCP
-    targetPort: 3000
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
   selector:
-    app: nestjs-car-rental
-  type: NodePort
-status:
-  loadBalancer: {}
+    {{- include "nestjs-car-rental.selectorLabels" . | nindent 4 }}

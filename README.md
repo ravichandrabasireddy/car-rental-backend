@@ -1,85 +1,169 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Car Rental API Documentation
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## App Information
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+### Get App Info
+- **Endpoint**: GET /
+- **Description**: Retrieves general information about the application.
+- **Authorization**: None required
 
-## Description
+## Car Management
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+### Create Car Listing
+- **Endpoint**: POST /car/create/listing
+- **Description**: Creates a new car listing.
+- **Authorization**: Admin role required
+- **Input**: createCarListingDto (body)
 
-## Project setup
+### Set Car Schedule
+- **Endpoint**: POST /car/set/schedule/:id
+- **Description**: Sets the schedule for a specific car.
+- **Authorization**: Admin role required
+- **Input**: 
+  - id (path parameter)
+  - updateCarScheduleDto (body)
 
-```bash
-$ npm install
-```
+### Delete Car Listing
+- **Endpoint**: POST /car/delete/listing/:id
+- **Description**: Deletes a car listing.
+- **Authorization**: Admin role required
+- **Input**: id (path parameter)
 
-## Compile and run the project
+### Update Car Listing
+- **Endpoint**: POST /car/update/listing/:id
+- **Description**: Updates an existing car listing.
+- **Authorization**: Admin role required
+- **Input**: 
+  - id (path parameter)
+  - updateCarListingDto (body)
 
-```bash
-# development
-$ npm run start
+### Find Car Listings
+- **Endpoint**: GET /car/find/listings
+- **Description**: Searches for car listings based on criteria.
+- **Authorization**: None required
+- **Input**: findCarListingsDto (query parameters)
 
-# watch mode
-$ npm run start:dev
+### Find Car Listing by ID
+- **Endpoint**: GET /car/find/listing/:id
+- **Description**: Retrieves a specific car listing by ID.
+- **Authorization**: Admin role required
+- **Input**: id (path parameter)
 
-# production mode
-$ npm run start:prod
-```
+### Find Available Car Listing
+- **Endpoint**: GET /car/find/avialablelisting/:id
+- **Description**: Finds available car listings by ID.
+- **Authorization**: JWT authentication required
+- **Input**: id (path parameter)
 
-## Run tests
+### Find Car Listings by User ID
+- **Endpoint**: GET /car/find/listings/user/:id
+- **Description**: Retrieves car listings associated with a specific user.
+- **Authorization**: Admin role required
+- **Input**: id (path parameter)
 
-```bash
-# unit tests
-$ npm run test
+### Get Car Schedule
+- **Endpoint**: GET /car/get/schedule/:id
+- **Description**: Retrieves the schedule for a specific car.
+- **Authorization**: JWT authentication required
+- **Input**: id (path parameter)
 
-# e2e tests
-$ npm run test:e2e
+### Update Car Availability
+- **Endpoint**: POST /car/update/availability/:id
+- **Description**: Updates the availability status of a car.
+- **Authorization**: Admin role required
+- **Input**: 
+  - id (path parameter)
+  - available (boolean, body)
 
-# test coverage
-$ npm run test:cov
-```
+## Authentication
 
-## Resources
+### Register User
+- **Endpoint**: POST /auth/register
+- **Description**: Registers a new user.
+- **Authorization**: None required
+- **Input**: CreateUserDto (body)
 
-Check out a few resources that may come in handy when working with NestJS:
+### Login
+- **Endpoint**: POST /auth/login
+- **Description**: Authenticates a user and returns a token.
+- **Authorization**: None required
+- **Input**: LoginDto (body)
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### Refresh Token
+- **Endpoint**: POST /auth/refresh
+- **Description**: Refreshes the authentication token.
+- **Authorization**: Refresh token required
+- **Input**: None (uses token from request)
 
-## Support
+## File Upload
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### Upload File
+- **Endpoint**: POST /blob/upload
+- **Description**: Uploads an image file.
+- **Authorization**: Admin role required
+- **Input**: image file (multipart/form-data)
+- **Limitations**: 
+  - Max file size: 10MB
+  - Allowed formats: .jpg, .jpeg, .png, .gif
 
-## Stay in touch
+## User Management
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### Get User by ID
+- **Endpoint**: GET /user/:id
+- **Description**: Retrieves user information by ID.
+- **Authorization**: JWT authentication required
+- **Input**: id (path parameter)
 
-## License
+### Update User
+- **Endpoint**: POST /user/update/:id
+- **Description**: Updates user information.
+- **Authorization**: JWT authentication required
+- **Input**: 
+  - id (path parameter)
+  - UpdateUserDto (body)
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+## Payments
+
+### Create Payment
+- **Endpoint**: POST /payments/create
+- **Description**: Creates a new payment.
+- **Authorization**: None specified (consider adding authentication)
+- **Input**: createPaymentDto (body)
+
+## Reservations
+
+### Get Confirmed Reservation
+- **Endpoint**: GET /reservation/confirmed/:id
+- **Description**: Retrieves a confirmed reservation by ID.
+- **Authorization**: JWT authentication required
+- **Input**: id (path parameter)
+
+### Get All Reservations
+- **Endpoint**: GET /reservation/all/:id
+- **Description**: Retrieves all reservations for a user.
+- **Authorization**: JWT authentication required
+- **Input**: id (path parameter)
+
+### Get User's Current Reservations
+- **Endpoint**: GET /reservation/user/:id
+- **Description**: Retrieves current reservations for a user.
+- **Authorization**: JWT authentication required
+- **Input**: id (path parameter)
+
+### Get User's Reservation History
+- **Endpoint**: GET /reservation/user/:id/history
+- **Description**: Retrieves reservation history for a user.
+- **Authorization**: JWT authentication required
+- **Input**: id (path parameter)
+
+### Cancel Reservation
+- **Endpoint**: POST /reservation/cancel/:id
+- **Description**: Cancels a specific reservation.
+- **Authorization**: JWT authentication required
+- **Input**: id (path parameter)
+
+### Create Reservation
+- **Endpoint**: POST /reservation/create
+- **Description**: Creates a new reservation.
+- **Authorization**: JWT authentication required
+- **Input**: createReservationDto (body)

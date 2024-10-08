@@ -24,7 +24,7 @@ spec:
         ports:
         - name: http
           containerPort: {{ .Values.service.port }}
-        envFrom:
+        envFrom:  
         - secretRef:
             name: {{ include "nestjs-car-rental.fullname" . }}-secrets
         volumeMounts:
@@ -36,5 +36,5 @@ spec:
         secret:
           secretName: {{ include "nestjs-car-rental.fullname" . }}-secrets
           items:
-          - key: service-account.json
+          - key: serviceAccountJson
             path: service-account.json

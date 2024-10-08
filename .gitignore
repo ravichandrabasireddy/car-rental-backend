@@ -13,6 +13,9 @@ yarn-error.log*
 lerna-debug.log*
 
 
+k8s/nestjs-car-rental/secrets.yaml
+k8s/nestjs-car-rental/values.yaml
+
 # OS
 .DS_Store
 
